@@ -20,12 +20,10 @@ class AlienInvasion:
     def run_game(self): #run_game method controls the game
         """Start the main loop for the game"""
         while True:
-            #Watch for keyboard and mouse events
-            for event in pygame.event.get(): #EVENT = user action --> this for loop = event loop; pygame.event.get()
-                # calls a list of events that have taken place since the last time the function was called; any keyboard
-                # or mouse event will cause this function to run
-                if event.type == pygame.QUIT:
-                    sys.exit()
+            self._check_events()
+            self.ship.update()
+            self._update_screen()
+
             # Redraw the screen during each pass through the loop
             self.screen.fill(self.settings.bg_color) #here, we fill the screen with the background color (fill()) method acts
             # on surface and takes one argument: a color
@@ -34,6 +32,37 @@ class AlienInvasion:
             #Make most recently drawn screen visible.
             pygame.display.flip() #erases the old screen --> only new screen is visible (can create an illusion of
             #smooth movement (only new positions of game elements shown)
+
+    def _check_events(self):
+        # Watch for keyboard and mouse events
+        for event in pygame.event.get():  # EVENT = user action --> this for loop = event loop; pygame.event.get()
+            # calls a list of events that have taken place since the last time the function was called; any keyboard
+            # or mouse event will cause this function to run
+            if event.type == pygame.QUIT:
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    #Move the ship to the right
+                    self.ship.moving_right = True
+                elif event.key == pygame.K_LEFT:
+                    self.ship.moving_left = True
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RIGHT:
+                    self.ship.moving_right = False
+                elif event.key == pygame.K_LEFT:
+                    self.ship.moving_left = False
+
+
+    def _update_screen(self):
+        # Redraw the screen during each pass through the loop
+        self.screen.fill(
+            self.settings.bg_color)  # here, we fill the screen with the background color (fill()) method acts
+        # on surface and takes one argument: a color
+        self.ship.blitme()  # paps is called to screen, appears on top of background
+
+        # Make most recently drawn screen visible.
+        pygame.display.flip()  # erases the old screen --> only new screen is visible (can create an illusion of
+        # smooth movement (only new positions of game elements shown)
 
 if __name__ == '__main__':
     #Make a game instance and run the game
