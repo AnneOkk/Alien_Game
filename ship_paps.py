@@ -10,7 +10,7 @@ class Ship:
         self.settings = ai_game.settings
 
         self.screen_rect = ai_game.screen.get_rect() #access rect attribute and assign it to self.screen_rect -->
-        #allows us to place the shop at the correct location on screen
+        #allows us to place the ship at the correct location on screen
 
         #Load the ship image and get its rect
         self.image = pygame.transform.scale(pygame.image.load('images/paps.png'), (120, 190))
